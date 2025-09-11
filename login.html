@@ -144,6 +144,18 @@
             font-size: 0.95rem;
         }
 
+        .success-message {
+            background: #d1f2eb;
+            border: 1px solid #27ae60;
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 16px;
+            font-size: 0.95rem;
+            color: #27ae60;
+            text-align: center;
+            display: none;
+        }
+
         .security-note {
             background: #f0f9ff;
             border: 1px solid #bfdbfe;
@@ -205,10 +217,11 @@
                 <button type="submit" id="loginButton">ログイン</button>
             </form>
             <div id="loadingMessage" class="loading">認証中...</div>
+            <div id="successMessage" class="success-message">ログイン成功！リダイレクト中...</div>
             <p id="errorMessage" class="error-message"></p>
-            <!-- <div class="security-note">
+            <div class="security-note">
                 🔒 パスワードはサーバーサイドで安全に検証されます
-            </div> -->
+            </div>
         </div>
         <footer class="footer">
             <p>&copy; 2025 Increase FX. Counter trade analysis made accessible to everyone.</p>
@@ -221,6 +234,7 @@
         const loginButton = document.getElementById('loginButton');
         const errorMessage = document.getElementById('errorMessage');
         const loadingMessage = document.getElementById('loadingMessage');
+        const successMessage = document.getElementById('successMessage');
 
         // Handle form submission
         loginForm.addEventListener('submit', async (event) => {
@@ -248,8 +262,16 @@
                 const result = await response.json();
 
                 if (response.ok && result.success) {
-                    // Authentication successful, redirect to main site
-                    window.location.href = '/';
+                    // Show success alert (browser alert)
+                    alert('ログイン成功！FX分析ページに移動します。');
+                    
+                    // Also show success message on page
+                    showSuccess();
+                    
+                    // Small delay to ensure user sees the message
+                    setTimeout(() => {
+                        window.location.href = '/';
+                    }, 1000);
                 } else {
                     // Authentication failed
                     showError(result.message || 'パスワードが間違っています。');
@@ -267,6 +289,7 @@
         function showError(message) {
             errorMessage.textContent = message;
             errorMessage.style.display = 'block';
+            successMessage.style.display = 'none';
             
             // Hide error message after 4 seconds
             setTimeout(() => {
@@ -274,11 +297,17 @@
             }, 4000);
         }
 
+        function showSuccess() {
+            successMessage.style.display = 'block';
+            errorMessage.style.display = 'none';
+        }
+
         function setLoadingState(isLoading) {
             if (isLoading) {
                 loginButton.disabled = true;
                 loadingMessage.style.display = 'block';
                 errorMessage.style.display = 'none';
+                successMessage.style.display = 'none';
             } else {
                 loginButton.disabled = false;
                 loadingMessage.style.display = 'none';

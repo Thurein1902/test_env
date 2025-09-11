@@ -6,8 +6,8 @@ from datetime import datetime
 
 # Configuration
 SOURCE_BASE_PATH = r"C:\Users\thure\AppData\Roaming\MetaQuotes\Terminal\EE0304F13905552AE0B5EAEFB04866EB\MQL5\Files"
-DESTINATION_BASE_PATH = r"C:\Users\thure\CounterTrader"
-GIT_REPO_PATH = r"C:\Users\thure\CounterTrader"
+DESTINATION_BASE_PATH = r"C:\Users\thure\TestEnv"
+GIT_REPO_PATH = r"C:\Users\thure\TestEnv"
 
 # File configurations
 FILES_CONFIG = [
