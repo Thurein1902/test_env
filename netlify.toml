@@ -17,5 +17,3 @@
 [[edge_functions]]
   function = "auth"
   path = "/api/admin/change-password"
-
-# No environment variables needed!
