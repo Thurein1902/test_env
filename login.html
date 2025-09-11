@@ -145,15 +145,62 @@
         }
 
         .success-message {
-            background: #d1f2eb;
-            border: 1px solid #27ae60;
-            border-radius: 8px;
-            padding: 12px;
-            margin-top: 16px;
-            font-size: 0.95rem;
-            color: #27ae60;
+            background: linear-gradient(135deg, #d1f2eb, #a3e9d0);
+            border: 2px solid #27ae60;
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 20px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1e8449;
             text-align: center;
             display: none;
+            box-shadow: 0 8px 25px rgba(39, 174, 96, 0.2);
+            animation: slideInSuccess 0.5s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .success-message::before {
+            content: '✓';
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #27ae60;
+        }
+
+        .success-message::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shimmer 1.5s ease-in-out;
+        }
+
+        @keyframes slideInSuccess {
+            from {
+                opacity: 0;
+                transform: translateY(-20px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes shimmer {
+            0% {
+                left: -100%;
+            }
+            100% {
+                left: 100%;
+            }
         }
 
         .security-note {
@@ -260,16 +307,13 @@
                 const result = await response.json();
 
                 if (response.ok && result.success) {
-                    // Show success alert (browser alert)
-                    alert('ログイン成功！FX分析ページに移動します。');
-                    
-                    // Also show success message on page
+                    // Show auto-disappearing success message
                     showSuccess();
                     
-                    // Small delay to ensure user sees the message
+                    // Redirect after showing success message
                     setTimeout(() => {
                         window.location.href = '/';
-                    }, 1000);
+                    }, 2000);
                 } else {
                     // Authentication failed
                     showError(result.message || 'パスワードが間違っています。');
