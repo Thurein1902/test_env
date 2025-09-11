@@ -1,0 +1,9 @@
+[build]
+  publish = "."
+
+[[edge_functions]]
+  function = "auth"
+  path = ["/", "/api/auth", "/protected/*"]
+
+[context.production.environment]
+  AUTH_PASSWORD = "Q9wz3"
