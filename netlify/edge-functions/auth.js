@@ -26,7 +26,7 @@ export default async (request, context) => {
         );
       } else {
         return new Response(
-          JSON.stringify({ success: false, message: 'Invalid password' }),
+          JSON.stringify({ success: false, message: 'パスワードが間違っています。' }),
           { 
             status: 401,
             headers: { 'Content-Type': 'application/json' }
@@ -35,7 +35,7 @@ export default async (request, context) => {
       }
     } catch (error) {
       return new Response(
-        JSON.stringify({ success: false, message: 'Server error' }),
+        JSON.stringify({ success: false, message: 'サーバエラーになりました。管理者に連絡してください。' }),
         { 
           status: 500,
           headers: { 'Content-Type': 'application/json' }
