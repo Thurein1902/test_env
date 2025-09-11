@@ -1,28 +1,18 @@
 // netlify/edge-functions/auth.js
-import { getStore } from "https://deno.land/x/netlify@v0.7.2/mod.ts";
-
 export default async (request, context) => {
   const url = new URL(request.url);
-  const store = getStore("passwords");
   
-  // Get passwords from database with defaults
-  let loginPassword, adminPassword;
-  try {
-    loginPassword = await store.get("login_password") || "Q9wz3";
-    adminPassword = await store.get("admin_password") || "increase123";
-  } catch (error) {
-    // Fallback defaults if database fails
-    loginPassword = "Q9wz3";
-    adminPassword = "increase123";
-  }
+  // Use Netlify's built-in Deno KV store (if available) or fallback to environment variables
+  const CORRECT_PASSWORD = Deno.env.get('AUTH_PASSWORD') || 'Q9wz3';
+  const ADMIN_PASSWORD = Deno.env.get('ADMIN_PASSWORD') || 'increase123';
   
   // Handle admin password change endpoint
   if (request.method === 'POST' && url.pathname === '/api/admin/change-password') {
     try {
-      const { adminPassword: inputAdmin, oldPassword, newPassword } = await request.json();
+      const { adminPassword, oldPassword, newPassword } = await request.json();
       
       // Verify admin password
-      if (inputAdmin !== adminPassword) {
+      if (adminPassword !== ADMIN_PASSWORD) {
         return new Response(
           JSON.stringify({ success: false, message: '管理者パスワードが間違っています。' }),
           { 
@@ -33,7 +23,7 @@ export default async (request, context) => {
       }
       
       // Verify current login password
-      if (oldPassword !== loginPassword) {
+      if (oldPassword !== CORRECT_PASSWORD) {
         return new Response(
           JSON.stringify({ success: false, message: '現在のパスワードが間違っています。' }),
           { 
@@ -43,11 +33,12 @@ export default async (request, context) => {
         );
       }
       
-      // Update password in database
-      await store.set("login_password", newPassword);
-      
+      // For static sites without database, password changes require manual environment variable updates
       return new Response(
-        JSON.stringify({ success: true, message: 'パスワードが正常に更新されました！' }),
+        JSON.stringify({ 
+          success: false, 
+          message: 'パスワード変更にはNetlify環境変数の手動更新が必要です。新しいパスワード: ' + newPassword
+        }),
         { 
           status: 200,
           headers: { 'Content-Type': 'application/json' }
@@ -70,7 +61,7 @@ export default async (request, context) => {
     try {
       const { password } = await request.json();
       
-      if (password === loginPassword) {
+      if (password === CORRECT_PASSWORD) {
         // Create a secure session token
         const sessionToken = await generateSessionToken();
         
@@ -129,9 +120,8 @@ async function generateSessionToken() {
   return Array.from(array, byte => byte.toString(16).padStart(2, '0')).join('');
 }
 
-// Validate session token (in production, store in database)
+// Validate session token
 async function validateToken(token) {
-  // Simple validation - in production, check against database
   return token && token.length === 64;
 }
 
