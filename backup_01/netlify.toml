@@ -2,7 +2,6 @@
   publish = "."
   command = "echo 'Static site - no build required'"
 
-# Define separate edge functions for each path
 [[edge_functions]]
   function = "auth"
   path = "/"
@@ -17,6 +16,7 @@
 
 [[edge_functions]]
   function = "auth"
-  path = "/api/admin/change-password"
+  path = "/protected/*"
 
-# No password environment variables needed - using database storage instead
+[context.production.environment]
+  AUTH_PASSWORD = "Q9wz3"

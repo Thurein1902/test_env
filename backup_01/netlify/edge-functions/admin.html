@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Increase FX</title>
+    <!-- Your existing CSS styles -->
+</head>
+<body>
+    <div class="admin-page">
+        <nav class="nav">
+            <div class="nav-container">
+                <span class="logo">Increase FX Admin</span>
+            </div>
+        </nav>
+        
+        <div class="admin-container">
+            <h2>パスワード変更</h2>
+            <form id="passwordChangeForm">
+                <input type="password" id="adminPassword" placeholder="管理者パスワード (increase123)" required>
+                <input type="password" id="oldPassword" placeholder="現在のログインパスワード" required>
+                <input type="password" id="newPassword" placeholder="新しいログインパスワード" required>
+                <button type="submit">パスワード変更</button>
+            </form>
+            <div id="resultMessage"></div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('passwordChangeForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const adminPassword = document.getElementById('adminPassword').value;
+            const oldPassword = document.getElementById('oldPassword').value;
+            const newPassword = document.getElementById('newPassword').value;
+            
+            try {
+                const response = await fetch('/api/admin/change-password', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ adminPassword, oldPassword, newPassword })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    document.getElementById('resultMessage').innerHTML = 
+                        '<div style="color: green;">パスワードが正常に更新されました！</div>';
+                    document.getElementById('passwordChangeForm').reset();
+                } else {
+                    document.getElementById('resultMessage').innerHTML = 
+                        `<div style="color: red;">エラー: ${result.message}</div>`;
+                }
+            } catch (error) {
+                document.getElementById('resultMessage').innerHTML = 
+                    '<div style="color: red;">サーバーエラーが発生しました</div>';
+            }
+        });
+    </script>
+</body>
+</html>
