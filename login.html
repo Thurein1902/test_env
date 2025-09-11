@@ -301,13 +301,13 @@
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({ password }),
-                    credentials: 'same-origin' // Include cookies
+                    credentials: 'same-origin'
                 });
 
                 const result = await response.json();
 
                 if (response.ok && result.success) {
-                    // Show auto-disappearing success message
+                    // Show only the beautiful success message - NO alert popup
                     showSuccess();
                     
                     // Redirect after showing success message
