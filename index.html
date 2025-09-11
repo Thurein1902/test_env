@@ -1046,11 +1046,6 @@
 
     <script>
 
-    // Check authentication on page load
-    if (sessionStorage.getItem('isAuthenticated') !== 'true') {
-        window.location.href = 'login.html';
-    }
-
     // Global variables for forex data
     let forexData = null;
     let processedTableData = [];

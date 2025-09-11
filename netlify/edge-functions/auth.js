@@ -44,19 +44,19 @@ export default async (request, context) => {
     }
   }
   
-  // Check authentication for protected routes (exclude login page)
-  if ((url.pathname === '/' || url.pathname.startsWith('/protected/')) && 
-      !url.pathname.includes('login.html')) {
+    // Check authentication for protected routes (exclude login page)
+    if ((url.pathname === '/' || url.pathname === '/index.html' || url.pathname.startsWith('/protected/')) && 
+        !url.pathname.includes('login.html')) {
     const authToken = getCookieValue(request.headers.get('cookie'), 'auth_token');
     
     if (!authToken || !await validateToken(authToken)) {
-      // Redirect to login page
-      return new Response(null, {
+        // Redirect to login page
+        return new Response(null, {
         status: 302,
         headers: { 'Location': '/login.html' }
-      });
+        });
     }
-  }
+    }
   
   // Continue to next handler for all other requests
   return context.next();
