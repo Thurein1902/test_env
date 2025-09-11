@@ -18,6 +18,4 @@
   function = "auth"
   path = "/api/admin/change-password"
 
-[context.production.environment]
-  AUTH_PASSWORD = "Q9wz3"
-  ADMIN_PASSWORD = "increase123"
+# No environment variables needed!
