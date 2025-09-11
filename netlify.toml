@@ -1,9 +1,19 @@
 [build]
   publish = "."
+  command = "echo 'Static site - no build required'"
+
+# Define separate edge functions for each path
+[[edge_functions]]
+  function = "auth"
+  path = "/"
 
 [[edge_functions]]
   function = "auth"
-  path = ["/", "/api/auth", "/protected/*"]
+  path = "/api/auth"
+
+[[edge_functions]]
+  function = "auth"
+  path = "/protected/*"
 
 [context.production.environment]
   AUTH_PASSWORD = "Q9wz3"

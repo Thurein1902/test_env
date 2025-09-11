@@ -5,6 +5,7 @@ export default async (request, context) => {
   // Server-side password (set this in Netlify environment variables)
   const CORRECT_PASSWORD = Deno.env.get('AUTH_PASSWORD') || 'Q9wz3';
   
+  // Handle login API endpoint
   if (request.method === 'POST' && url.pathname === '/api/auth') {
     try {
       const { password } = await request.json();
@@ -57,7 +58,7 @@ export default async (request, context) => {
     }
   }
   
-  // Continue to next handler
+  // Continue to next handler for all other requests
   return context.next();
 };
 
@@ -80,8 +81,3 @@ function getCookieValue(cookieString, name) {
   const match = cookieString.match(new RegExp('(^| )' + name + '=([^;]+)'));
   return match ? match[2] : null;
 }
-
-export const config = {
-  path: ["/", "/api/auth", "/protected/*"],
-  excludedPath: ["/login.html"]
-};
