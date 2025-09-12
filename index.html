@@ -539,22 +539,34 @@
             margin: 20px 0;
         }
         .trigger-on {
-            background: rgba(52, 199, 89, 0.15);
-            color: #34C759;
-            font-weight: 600;
-            padding: 8px 16px;
-            border-radius: 12px;
-            font-size: 0.95rem;
-            letter-spacing: 0.02em;
+            background: #34C759;
+            color: #ffffff;
+            font-weight: 500;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            letter-spacing: 0.01em;
+            display: inline-block;
+            text-align: center;
+            min-width: 80px;
+            border: none;
+            white-space: nowrap;
         }
 
         .trigger-off {
-            color: #6e6e6e;
-            font-weight: 400;
-            padding: 8px 16px;
-            font-size: 0.95rem;
-            letter-spacing: 0.02em;
-}
+            background: #e5e5e7;
+            color: #8e8e93;
+            font-weight: 500;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            letter-spacing: 0.01em;
+            display: inline-block;
+            text-align: center;
+            min-width: 80px;
+            border: none;
+            white-space: nowrap;
+        }
     </style>
 </head>
 <body>
@@ -1330,7 +1342,7 @@
                 <td class="${isExtremeRanking(row.overallRanking) ? 'highlight-extreme-ranking' : ''}">${row.overallRanking}</td>
                 <td class="${confidenceClass}">${medal}${row.confidence}%</td>
                 <td><span class="${entryClass}">${entrySignal}</span></td>
-                <td><span class="${getTriggerClass(row.trigger)}" title="${row.triggerReason}">${row.trigger}</span></td>
+                <td><span class="${getTriggerClass(row.trigger)}">${row.trigger} | ${row.triggerReason}</span></td>
             `;
             tbody.appendChild(tr);
         });
