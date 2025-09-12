@@ -132,7 +132,7 @@ def move_files():
         print(f"Successfully copied {success_count}/{len(FILES_CONFIG)} files")
         
         # Only run git commands if at least one file was copied successfully
-        #run_git_commands()
+        run_git_commands()
     else:
         print("No files were copied successfully")
 
