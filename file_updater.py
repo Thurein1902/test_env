@@ -159,7 +159,7 @@ def main():
             now = datetime.now()
             
             # Trigger at minute 4 of each hour
-            if now.minute == 1 and now.hour != last_hour:
+            if now.minute == 4 and now.hour != last_hour:
                 print(f"\nTriggered at {now.strftime('%Y-%m-%d %H:%M:%S')}")
                 move_files()
                 last_hour = now.hour

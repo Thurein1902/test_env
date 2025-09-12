@@ -135,7 +135,7 @@ export default async (request, context) => {
             status: 200,
             headers: {
               'Content-Type': 'application/json',
-              'Set-Cookie': `auth_token=${sessionToken}; HttpOnly; Secure; SameSite=Strict; Max-Age=86400; Path=/`
+              'Set-Cookie': `auth_token=${sessionToken}; HttpOnly; Secure; SameSite=Strict; Max-Age=60; Path=/`
             }
           }
         );
