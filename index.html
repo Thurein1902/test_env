@@ -538,6 +538,7 @@
             border-radius: 8px;
             margin: 20px 0;
         }
+        
         .trigger-on {
             background: #34C759;
             color: #ffffff;
@@ -548,7 +549,7 @@
             letter-spacing: 0.01em;
             display: inline-block;
             text-align: center;
-            min-width: 100px;
+            min-width: 50px;
             border: none;
             white-space: nowrap;
         }
@@ -563,7 +564,7 @@
             letter-spacing: 0.01em;
             display: inline-block;
             text-align: center;
-            min-width: 100px;
+            min-width: 50px;
             border: none;
             white-space: nowrap;
         }
@@ -1342,7 +1343,7 @@
                 <td class="${isExtremeRanking(row.overallRanking) ? 'highlight-extreme-ranking' : ''}">${row.overallRanking}</td>
                 <td class="${confidenceClass}">${medal}${row.confidence}%</td>
                 <td><span class="${entryClass}">${entrySignal}</span></td>
-                <td><span class="${getTriggerClass(row.trigger)}">${row.trigger} | ${getTriggerReasonText(row.triggerReason)}</span></td>
+                <td><span class="${getTriggerClass(row.trigger)}">${formatTriggerDisplay(row.trigger, row.triggerReason)}</span></td>
             `;
             tbody.appendChild(tr);
         });
@@ -1365,6 +1366,15 @@
         return reasonMap[reasonCode] || reasonCode;
     }
 
+    function formatTriggerDisplay(trigger, reasonCode) {
+        if (trigger === 'OFF') {
+            return 'OFF';
+        } else if (trigger === 'ON') {
+            return `ON | ${getTriggerReasonText(reasonCode)}`;
+        }
+        return trigger;
+    }
+    
     // Convert Buy/Sell signal to Japanese direction
     function getDirectionFromSignal(signal) {
         if (signal === 'Buy') return '上方向傾向';
