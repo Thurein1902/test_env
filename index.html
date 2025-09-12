@@ -548,7 +548,7 @@
             letter-spacing: 0.01em;
             display: inline-block;
             text-align: center;
-            min-width: 80px;
+            min-width: 100px;
             border: none;
             white-space: nowrap;
         }
@@ -563,7 +563,7 @@
             letter-spacing: 0.01em;
             display: inline-block;
             text-align: center;
-            min-width: 80px;
+            min-width: 100px;
             border: none;
             white-space: nowrap;
         }
@@ -1342,7 +1342,7 @@
                 <td class="${isExtremeRanking(row.overallRanking) ? 'highlight-extreme-ranking' : ''}">${row.overallRanking}</td>
                 <td class="${confidenceClass}">${medal}${row.confidence}%</td>
                 <td><span class="${entryClass}">${entrySignal}</span></td>
-                <td><span class="${getTriggerClass(row.trigger)}">${row.trigger} | ${row.triggerReason}</span></td>
+                <td><span class="${getTriggerClass(row.trigger)}">${row.trigger} | ${getTriggerReasonText(row.triggerReason)}</span></td>
             `;
             tbody.appendChild(tr);
         });
@@ -1352,6 +1352,17 @@
     function getTriggerClass(trigger) {
         if (trigger === 'ON') return 'trigger-on';
         return 'trigger-off';
+    }
+
+    function getTriggerReasonText(reasonCode) {
+        const reasonMap = {
+            'T_1': 'EMA戻り',
+            'T_2': 'RSI極値', 
+            'T_3': 'RSI戻り',
+            'NONE': 'なし',
+            'None': 'なし'
+        };
+        return reasonMap[reasonCode] || reasonCode;
     }
 
     // Convert Buy/Sell signal to Japanese direction
